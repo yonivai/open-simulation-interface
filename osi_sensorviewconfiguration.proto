@@ -223,11 +223,11 @@ message SensorViewConfiguration
     //
     repeated UltrasonicSensorViewConfiguration
         ultrasonic_sensor_view_configuration = 1004;
-		
-	// Raytracer-specific View Configuration(s).
+        
+    // Raytracer-specific View Configuration(s).
     //
     repeated RaytracerViewConfiguration
-        raytracer_view_configuration = 1005;	
+        raytracer_view_configuration = 1005;
 }
 
 //
@@ -962,45 +962,45 @@ message RaytracerViewConfiguration
     // but this is optional; the environment simulation must provide a valid
     // mounting position (based on the vehicle configuration) when setting the
     // view configuration.
-	//
-	// All raytracing results e.g. Hitpoint positions are given in this
-	// sensor coordinate system.
+    //
+    // All raytracing results e.g. Hitpoint positions are given in this
+    // sensor coordinate system.
     //
     optional MountingPosition mounting_position = 2;
-	
-	// Position of the raytracer`s receiver in the sensor coordinate system.
-	// 
-	repeated MountingPosition receiver_position = 3;
-	
-	// Position of the raytracer`s transmitter in the sensor coordinate system.
-	//
-	repeated MountingPosition transmitter_position = 4;
-	
-	// The wavelength of the transmitted ray in the simulation.
-	//
-	// Unit: nm
-	optional emitter_wavelength = 5;
-	
-	// When reaching the maximmum signal loss during raytracing further raytracing is aborted.
-	// The maximum signal loss is the relation between current calculated signal strength and the emitted signal
-	// strength at the ray generation.
-	// 
-	// Unit: dB
-	optional maximum_signal_loss = 6;
-	
-	// The maximum path length desribes the ray's maximum overall distance.
-	// If the maximum path length is reached during simulation no further interaction is calculated.
-	//
-	// Unit: m
-	optional max_path_length = 7;
-	
-	// The maximum number of interaction desribes the ray's maximum hits with surfaces.
-	// If the maximum number of interaction is reached during simulation no further interaction is calculated.
-	//
-	// Unit: -
-	optional max_number_of_interactions = 8;
-	
-	// Format of raytracer data (includes number, kind and format of channels).
+    
+    // Position of the raytracer`s receiver in the sensor coordinate system.
+    // 
+    repeated MountingPosition receiver_position = 3;
+    
+    // Position of the raytracer`s transmitter in the sensor coordinate system.
+    //
+    repeated MountingPosition transmitter_position = 4;
+    
+    // The wavelength of the transmitted ray in the simulation.
+    //
+    // Unit: nm
+    optional emitter_wavelength = 5;
+    
+    // When reaching the maximmum signal loss during raytracing further raytracing is aborted.
+    // The maximum signal loss is the relation between current calculated signal strength and the emitted signal
+    // strength at the ray generation.
+    // 
+    // Unit: dB
+    optional maximum_signal_loss = 6;
+    
+    // The maximum path length desribes the ray's maximum overall distance.
+    // If the maximum path length is reached during simulation no further interaction is calculated.
+    //
+    // Unit: m
+    optional max_path_length = 7;
+    
+    // The maximum number of interaction desribes the ray's maximum hits with surfaces.
+    // If the maximum number of interaction is reached during simulation no further interaction is calculated.
+    //
+    // Unit: -
+    optional max_number_of_interactions = 8;
+    
+    // Format of raytracer data (includes number, kind and format of channels).
     //
     // In the message provided by the sensor model, this field can
     // be repeated and all values are acceptable to the model, with
@@ -1019,10 +1019,10 @@ message RaytracerViewConfiguration
     // \endrules
     //
     repeated RaytracerFormat raytracer_format = 9;
-	
-	// Different predefined raytracer formats
-	// 
-	enum RaytracerFormat
+
+    // Different predefined raytracer formats
+    // 
+    enum RaytracerFormat
     {
         // Type of channel format is unknown (must not be used).
         //
@@ -1036,29 +1036,29 @@ message RaytracerViewConfiguration
 
         // Radar raytracer format used in the Japanese DIVP project.
         //
-		// The message consists of the following fields in the described order.
-		// In brackets the data type, the unit and a short description is given. 
-		// distance (float; in m; path length of the ray)
-		// relative_speed (float; in m/s; summed relative speed due to interaction points with moved surfaces)
-		// propagation_attenuation_h_pol (float; in W; attenuation of signal strength of horizontal polarisation)
-        // propagation_attenuation_v_pol (float; in W; attenuation of signal strength of vertical polarisation)		
-		// direction_of_arrival_azimuth (float; in rad; direction of arrival of the ray in the configured raytracer coordinate system in azimuth direction)
-		// direction_of_arrival_elevation (float; in rad; direction of arrival of the ray in the configured raytracer coordinate system in elevation direction)
-		// direction_of_departure_azimuth (float; in rad; direction of departure of the ray in the configured raytracer coordinate system in azimuth direction)
-		// direction_of_departure_elevation (float; in rad; direction of departure of the ray in the configured raytracer coordinate system in elevation direction)
-		//
-		RAYTRACER_FORMAT_DIVP_RADAR = 2;
-		
-		// Radar raytracer format used in the German VIVALDI project.
+        // The message consists of the following fields in the described order.
+        // In brackets the data type, the unit and a short description is given. 
+        // distance (float; in m; path length of the ray)
+        // relative_speed (float; in m/s; summed relative speed due to interaction points with moved surfaces)
+        // propagation_attenuation_h_pol (float; in W; attenuation of signal strength of horizontal polarisation)
+        // propagation_attenuation_v_pol (float; in W; attenuation of signal strength of vertical polarisation)
+        // direction_of_arrival_azimuth (float; in rad; direction of arrival of the ray in the configured raytracer coordinate system in azimuth direction)
+        // direction_of_arrival_elevation (float; in rad; direction of arrival of the ray in the configured raytracer coordinate system in elevation direction)
+        // direction_of_departure_azimuth (float; in rad; direction of departure of the ray in the configured raytracer coordinate system in azimuth direction)
+        // direction_of_departure_elevation (float; in rad; direction of departure of the ray in the configured raytracer coordinate system in elevation direction)
         //
-		// The message consists of the following fields in the described order.
-		// In brackets the data type, the unit and a short description is given. 
-		// intersection_path_length (float; in m; path length of the ray between the First_Hitpoint and the Last_Hitpoint)
-		// relative_speed (float; in m/s; summed relative speed due to interaction points with moved surfaces)
-		// jones_vector (float4; in V/m; jones vector of the ray with information of the electromagnetic wave`s phase, signal strength and polarisation)
-        // last_hitpoint (float3; in m; coordinates of the last hitpoint in the raytracer's coordinate system defined by the mounting position)		
-		// first_hitpoint (float3; in m; coordinates of the first hitpoint in the raytracer's coordinate system defined by the mounting position)
-		//
-		RAYTRACER_FORMAT_VIVALDI_RADAR = 3;
-		}
+        RAYTRACER_FORMAT_DIVP_RADAR = 2;
+        
+        // Radar raytracer format used in the German VIVALDI project.
+        //
+        // The message consists of the following fields in the described order.
+        // In brackets the data type, the unit and a short description is given. 
+        // intersection_path_length (float; in m; path length of the ray between the First_Hitpoint and the Last_Hitpoint)
+        // relative_speed (float; in m/s; summed relative speed due to interaction points with moved surfaces)
+        // jones_vector (float4; in V/m; jones vector of the ray with information of the electromagnetic wave`s phase, signal strength and polarisation)
+        // last_hitpoint (float3; in m; coordinates of the last hitpoint in the raytracer's coordinate system defined by the mounting position)
+        // first_hitpoint (float3; in m; coordinates of the first hitpoint in the raytracer's coordinate system defined by the mounting position)
+        //
+        RAYTRACER_FORMAT_VIVALDI_RADAR = 3;
+        }
 }
