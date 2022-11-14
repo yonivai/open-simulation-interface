@@ -1060,4 +1060,5 @@ message RaytracerViewConfiguration
 		// first_hitpoint (float3; in m; coordinates of the first hitpoint in the raytracer's coordinate system defined by the mounting position)
 		//
 		RAYTRACER_FORMAT_VIVALDI_RADAR = 3;
+		}
 }
