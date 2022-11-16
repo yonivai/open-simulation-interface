@@ -1010,10 +1010,6 @@ message RaytracerViewConfiguration
     // must be no value, indicating that the simulation environment
     // cannot provide raytracer data in one of the requested formats.
     //
-    // \rules
-    // is_smaller_than_or_equal_to: 1
-    // \endrules
-    //
     optional RaytracerFormat raytracer_format = 9;
 
     // Different predefined raytracer formats
