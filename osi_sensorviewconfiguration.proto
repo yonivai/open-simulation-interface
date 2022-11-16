@@ -1002,10 +1002,6 @@ message RaytracerViewConfiguration
     
     // Format of raytracer data (includes number, kind and format of channels).
     //
-    // In the message provided by the sensor model, this field can
-    // be repeated and all values are acceptable to the model, with
-    // the most acceptable value being listed first, and the remaining
-    // values indicating alternatives in descending order of preference.
     //
     // In the message provided to the sensor model, this field must
     // contain exactly one value, indicating the format of the image
@@ -1015,10 +1011,10 @@ message RaytracerViewConfiguration
     // cannot provide raytracer data in one of the requested formats.
     //
     // \rules
-    // is_greater_than_or_equal_to: 1
+    // is_smaller_than_or_equal_to: 1
     // \endrules
     //
-    repeated RaytracerFormat raytracer_format = 9;
+    optional RaytracerFormat raytracer_format = 9;
 
     // Different predefined raytracer formats
     // 
