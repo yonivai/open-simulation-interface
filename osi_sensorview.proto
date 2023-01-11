@@ -254,9 +254,9 @@ message LidarSensorView
     //
     message ReceivedSignalElement
     {
-        // Received spatial signal strength.
+        // Received spatial signal gain.
         //
-        // This describes the incoming direction and signal strength
+        // This describes the incoming direction and signal gain
         // from the simulated scene.
         //
         // The signal can be received from a different angle than it has been emitted to.

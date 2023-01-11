@@ -462,16 +462,16 @@ message LidarSensorViewConfiguration
     //
     optional double emitter_wavelength = 4;
 
-    // Emitted spatial signal power per beam.
+    // Emitted spatial signal gain per beam.
     //
-    // This describes the directions and signal power of the emitted lidar beams,
+    // This describes the directions and signal gain of the emitted lidar beams,
     // for which signal is to be expected from the simulated scene.
     // Direction of beam center is given by the angles in the message
     //
     // \note Data is in sensor coordinate system
     //
     //
-    repeated SpatialSignalPower emitted_beam = 5;
+    repeated SpatialSignalGain emitted_beam = 5;
 
     // Time offset for each emitted signal.
     //
