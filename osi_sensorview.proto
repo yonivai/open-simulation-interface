@@ -219,9 +219,7 @@ message RadarSensorView
 
         // The phase of the spatial_signal_gain at the sensor.
         //
-        // \rules
-        // The phase_size() has to be equal to the spatial_signal_gain.signal_power_size().
-        // \endrules
+        // The phase_size() has to be equal to the spatial_signal_gain.signal_gain_size().
         // 
         // Unit: rad
         //
