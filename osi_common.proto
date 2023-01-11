@@ -629,12 +629,12 @@ message WavelengthData
 }
 
 //
-// \brief Definition of a spatial signal gain distribution
+// \brief Definition of a spatial signal strength distribution
 // for an emitting / transmitting / receiving entity
 // with a horizontal and a vertical angle
-// and the corresponding signal gain in dB.
+// and the corresponding signal strength in dBm.
 //
-message SpatialSignalGain
+message SpatialSignalStrength
 {
     // Horizontal angle (azimuth) of emission / transmission / reception
     // in the entity's coordinate system.
@@ -654,12 +654,12 @@ message SpatialSignalGain
     // of the respective entity
     // at the previously defined horizontal and
     // vertical angle for one specific wavelength.
-    // The value for the signal gain
-    // is given in dB.
+    // The value for the signal strength
+    // is given in dBm.
     //
-    // Unit: dB
+    // Unit: dBm
     //
-    repeated double signal_gain = 3;
+    repeated double signal_strength = 3;
 }
 
 
@@ -951,4 +951,38 @@ message KeyValuePair
     // A generic string value.
     //
     optional string value = 2;
+}
+
+//
+// \brief Definition of a spatial signal gain distribution
+// for an emitting / transmitting / receiving entity
+// with a horizontal and a vertical angle
+// and the corresponding signal gain in dB.
+//
+message SpatialSignalGain
+{
+    // Horizontal angle (azimuth) of emission / transmission / reception
+    // in the entity's coordinate system.
+    //
+    // Unit: rad
+    //
+    optional double horizontal_angle = 1;
+
+    // Vertical angle (elevation) of emission / transmission / reception
+    // in the entity's coordinate system.
+    //
+    // Unit: rad
+    //
+    optional double vertical_angle = 2;
+
+    // Emitted / transmitted / received signal gain
+    // of the respective entity
+    // at the previously defined horizontal and
+    // vertical angle for one specific wavelength.
+    // The value for the signal gain
+    // is given in dB.
+    //
+    // Unit: dB
+    //
+    repeated double signal_gain = 3;
 }
