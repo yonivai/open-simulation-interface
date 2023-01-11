@@ -478,7 +478,7 @@ message LidarSensorViewConfiguration
     // The time offset in microseconds of every emitted signal
     // from each frame timestamp.
     //
-    // Unit: μs
+    // Unit: s
     //
     // \note Usually, this is needed when ray tracing or similar techniques are applied.
     //
