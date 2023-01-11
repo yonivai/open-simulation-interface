@@ -177,39 +177,39 @@ message RadarSensorView
     //
     optional RadarSensorViewConfiguration view_configuration = 1;
 
-    // Ray tracing data.
+    // Received signal.
     //
-    // This field includes one entry for each ray, in left-to-right,
-    // top-to-bottom order (think of scan lines in a TV).
+    // This field includes the returned signal in the scene, that is backscattered to the sensor.
     //
-    repeated Reflection reflection = 2;
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated ReceivedSignalElement received_signal_element = 2;
 
     //
-    // \brief Definition of the radar reflection.
+    // \brief Definition of the result of a e.g. rendering algorithm, which simulates the
+    // propagation of signal in a virtual scene. 
     //
-    message Reflection
+    message ReceivedSignalElement
     {
-        // Relative signal level of the reflection.
+        // Received spatial element.
         //
-        // This takes the combined antenna diagram (losses in TX and RX)
-        // as well as the signal losses due to scattering and absorption
-        // into account, and will, when multiplied by TX power yield the
-        // actual RX power.
+        // This describes the incoming direction and signal strength in dB
+        // of the signal return from the simulated scene.
+        // The signal can be received from a different angle than it has been emitted to.
         //
-        // Unit: dB
+        // \note Data is in sensor coordinate system.
         //
-        optional double signal_strength = 1;
-
+        optional SpatialSignalGain spatial_signal_gain = 1;
+        
         // Time of flight.
         //
-        // This is the time of flight of the reflection, which is directly
-        // proportional to the distance traveled.
+        // This is the time needed by the signal from emission to reception.
         //
         // Unit: s
         //
         optional double time_of_flight = 2;
 
-        // Doppler shift.
+        // Doppler shift
         //
         // Shift in frequency based on the specified TX frequency.
         //
@@ -217,23 +217,15 @@ message RadarSensorView
         //
         optional double doppler_shift = 3;
 
-        // TX horizontal angle (azimuth).
+        // The phase of the spatial_signal_gain at the sensor.
         //
-        // Horizontal angle of incidence of the source of the reflection
-        // at the TX antenna.
-        //
+        // \rules
+        // The phase_size() has to be equal to the spatial_signal_gain.signal_power_size().
+        // \endrules
+        // 
         // Unit: rad
         //
-        optional double source_horizontal_angle = 4;
-
-        // TX vertical angle (elevation).
-        //
-        // Vertical angle of incidence of the source of the reflection
-        // at the TX antenna.
-        //
-        // Unit: rad
-        //
-        optional double source_vertical_angle = 5;
+        optional double phase = 4;
     }
 }
 
@@ -248,60 +240,65 @@ message LidarSensorView
     //
     optional LidarSensorViewConfiguration view_configuration = 1;
 
-    // Ray tracing data.
+    // Received signal element.
     //
-    // This field includes one entry for each ray, in left-to-right,
-    // top-to-bottom order (think of scan lines in a TV).
+    // This field includes one element of the returned signal in the scene, which is backscattered to the sensor.
     //
-    repeated Reflection reflection = 2;
+    // \note Due to e.g. super-sampling or diffuse reflections, a single emitted lidar beam can yield multiple signal returns.
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated ReceivedSignalElement received_signal_element = 2;
 
     //
-    // \brief Definition of the lidar reflection.
+    // \brief Definition of the result of a lidar rendering algorithm.
     //
-    message Reflection
+    message ReceivedSignalElement
     {
-        // Relative signal level of the reflection.
+        // Received spatial signal strength.
         //
-        // This takes the signal losses due to scattering and absorption
-        // into account, and will, when multiplied by TX power yield the
-        // potential RX power (disregarding any other RX/TX losses).
+        // This describes the incoming direction and signal strength
+        // from the simulated scene.
         //
-        // Unit: dB
+        // The signal can be received from a different angle than it has been emitted to.
         //
-        optional double signal_strength = 1;
+        // \note Data is in sensor coordinate system.
+        //
+        optional SpatialSignalGain spatial_signal_gain = 1;
 
         // Time of flight.
         //
-        // This is the time of flight of the reflection, which is directly
-        // proportional to the distance traveled.
+        // This is the time needed by the signal from emission to reception.
         //
         // Unit: s
         //
         optional double time_of_flight = 2;
 
-        // Doppler shift.
+        // Doppler shift
         //
-        // Shift in frequency based on the specified TX frequency.
+        // Shift in frequency based on the emitted frequency.
         //
         // Unit: Hz
         //
         optional double doppler_shift = 3;
 
-        // normal to surface angle.
+        // The phase of the spatial_signal_gain at the sensor.
         //
-        // The normal of the transmitted beam to the object, roadmarking etc
-        // encounter. \note data is in Lidar coordinate system
+        // \rules
+        // The phase_size() has to be equal to the spatial_signal_gain.signal_gain_size().
+        // \endrules
+        // 
+        // Unit: rad
         //
-        // Unit: unit vector
-        //
-        optional Vector3d normal_to_surface = 5;
+        optional double phase = 4;
 
-        // ID of the detected object this reflection is associated to.
-        // can be used for raytracing debug
+        // Zero-based index of the emitted lidar beam as configured in
+        // LidarSensorViewConfiguration.
         //
-        // \note ID = MAX(uint64) indicates no reference to an object.
-        optional Identifier object_id = 6;
+        // Unit: -
+        //
+        optional uint32 emitted_beam_id = 5;
     }
+
 }
 
 //

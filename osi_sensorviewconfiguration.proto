@@ -368,39 +368,6 @@ message RadarSensorViewConfiguration
     // Unit: rad
     optional double field_of_view_vertical = 5;
 
-    // Number of rays to cast across horizontal field of view (azimuth).
-    //
-    // \note This is a characteristic of the ray tracing engine of the
-    // environment simulation, not a direct characteristic of the sensor.
-    //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 number_of_rays_horizontal = 6;
-
-    // Number of rays to cast across vertical field of view (elevation).
-    //
-    // \note This is a characteristic of the ray tracing engine of the
-    // environment simulation, not a direct characteristic of the sensor.
-    //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 number_of_rays_vertical = 7;
-
-    // Maximum number of interactions to take into account.
-    //
-    // \note This is a characteristic of the ray tracing engine of the
-    // environment simulation, not a direct characteristic of the sensor.
-    //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 max_number_of_interactions = 8;
-
     // Emitter Frequency.
     //
     // This information can be used by a ray tracing engine to calculate
@@ -417,40 +384,23 @@ message RadarSensorViewConfiguration
     // is_greater_than_or_equal_to: 0
     // \endrules
     //
-    optional double emitter_frequency = 9;
+    optional double emitter_frequency = 6;
 
     // This represents the TX antenna diagram
     //
-    repeated AntennaDiagramEntry tx_antenna_diagram = 10;
+    repeated SpatialSignalGain tx_antenna_diagram = 7;
 
     // This represents the RX antenna diagram
     //
-    repeated AntennaDiagramEntry rx_antenna_diagram = 11;
-
+    repeated SpatialSignalGain rx_antenna_diagram = 8;
+    
+    // Emitter power.
     //
-    // \brief The radar antenna diagram.
+    // emitter_power must be considered together with tx_antenna_diagram for absolut power calculation. 
     //
-    // \note Rotation is defined analog Spherical3d
-    message AntennaDiagramEntry
-    {
-        // Horizontal deflection (azimuth) of entry in sensor/antenna
-        // coordinates.
-        //
-        // Unit: rad
-        optional double horizontal_angle = 1;
-
-        // Vertical deflection (elevation) of entry in sensor/antenna
-        // coordinates.
-        //
-        // Unit: rad
-        optional double vertical_angle = 2;
-
-        // Response of antenna at this point (positive dB is gain,
-        // negative dB is attenuation).
-        //
-        // Unit: dB
-        optional double response = 3;
-    }
+    // \note 0 dB as gain corresponds to the emitter power value.
+    //
+    optional double emitter_power = 9;
 }
 
 //
@@ -502,99 +452,75 @@ message LidarSensorViewConfiguration
     //
     optional MountingPosition mounting_position_rmse = 3;
 
-    // Field of View in horizontal orientation of the physical sensor.
+    // Emitter wavelength.
     //
-    // Viewing range: [- \c #field_of_view_horizontal/2,  \c
-    // #field_of_view_horizontal/2] azimuth in the sensor frame as defined in \c
-    // Spherical3d.
+    // This information can be used by a rendering engine to calculate
+    // signal interactions within the scene.
+    //
+    // Unit: nm
+    //
+    //
+    optional double emitter_wavelength = 4;
+
+    // Emitted spatial signal power per beam.
+    //
+    // This describes the directions and signal power of the emitted lidar beams,
+    // for which signal is to be expected from the simulated scene.
+    // Direction of beam center is given by the angles in the message
+    //
+    // \note Data is in sensor coordinate system
+    //
+    //
+    repeated SpatialSignalPower emitted_beam = 5;
+
+    // Time offset for each emitted signal.
+    //
+    // The time offset in microseconds of every emitted signal
+    // from each frame timestamp.
+    //
+    // Unit: μs
+    //
+    // \note Usually, this is needed when ray tracing or similar techniques are applied.
+    //
+    // \rules
+    // The time_offset_emission_size() must be the same as the emitted_signal_size().
+    // \endrules
+    //
+    repeated uint32 time_offset_emission = 6;
+
+    // Horizontal beam divergence
+    //
+    // The beam divergence in horizontal direction.
     //
     // Unit: rad
-    optional double field_of_view_horizontal = 4;
-
-    // Field of View in vertical orientation of the physical sensor.
     //
-    // Viewing range: [- \c #field_of_view_vertical/2,  \c
-    // #field_of_view_vertical/2] elevation in the sensor frame at zero azimuth
-    // as defined in \c Spherical3d.
+    optional double beam_divergence_horizontal = 7;
+
+    // Vertical beam divergence
+    //
+    // The beam divergence in vertical direction.
     //
     // Unit: rad
-    optional double field_of_view_vertical = 5;
+    //
+    optional double beam_divergence_vertical = 8;
 
-    // Number of rays to cast across horizontal field of view.
+    // Emitter pose.
     //
-    // \note This is a characteristic of the ray tracing engine of the
-    // environment simulation, not a direct characteristic of the sensor.
+    // Pose of the emitted signal in the sensor coordinate system.
     //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 number_of_rays_horizontal = 6;
+    optional MountingPosition emitter_pose = 9;
 
-    // Number of rays to cast across vertical field of view.
+    // Receiver pose.
     //
-    // \note This is a characteristic of the ray tracing engine of the
-    // environment simulation, not a direct characteristic of the sensor.
+    // Pose of the receiver unit in the sensor coordinate system.
     //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 number_of_rays_vertical = 7;
+    optional MountingPosition receiver_pose = 10;
 
-    // Maximum number of interactions to take into account.
+    // Emitted beam id
     //
-    // \note This is a characteristic of the ray tracing engine of the
-    // environment simulation, not a direct characteristic of the sensor.
+    // Zero-based Id of emitted beam.
     //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 max_number_of_interactions = 8;
-
-    // Emitter Frequency.
-    //
-    // This information can be used by a ray tracing engine to calculate
-    // doppler shift information and take into account differences in
-    // refraction and reflection. For doppler shift calculations the
-    // sensor model can of course always provide a nominal frequency and
-    // adjust the resulting doppler shift information to actual frequency
-    // through frequency adjustments. For material and geometry interaction
-    // purposes the frequency is also relevant.
-    //
-    // Unit: Hz
-    //
-    // \rules
-    // is_greater_than_or_equal_to: 0
-    // \endrules
-    //
-    optional double emitter_frequency = 9;
-
-    // Number of pixels in frame.
-    //
-    // This field includes the number of pixels in each frame
-    //
-    // \rules
-    // is_greater_than_or_equal_to: 1
-    // \endrules
-    //
-    optional uint32 num_of_pixels = 10;
-
-    // Ray tracing data.
-    //
-    // The directions unit vectors describing the Lidar's raster transmission
-    // directions. Length is num_of_pixels \note data is in Lidar's coordinate
-    // system
-    //
-    repeated Vector3d directions = 11;
-
-    // Ray tracing data.
-    //
-    // The time offset in microseconds of every measurement from each frame
-    // timestamp. Length is num_of_pixels
-    //
-    repeated uint32 timings = 12;
+    repeated uint32 emitted_beam_id = 11;
 }
 
 //
