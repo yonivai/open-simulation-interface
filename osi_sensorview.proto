@@ -283,9 +283,7 @@ message LidarSensorView
 
         // The phase of the spatial_signal_gain at the sensor.
         //
-        // \rules
         // The phase_size() has to be equal to the spatial_signal_gain.signal_gain_size().
-        // \endrules
         // 
         // Unit: rad
         //

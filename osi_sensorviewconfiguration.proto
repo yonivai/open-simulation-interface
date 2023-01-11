@@ -482,9 +482,7 @@ message LidarSensorViewConfiguration
     //
     // \note Usually, this is needed when ray tracing or similar techniques are applied.
     //
-    // \rules
     // The time_offset_emission_size() must be the same as the emitted_signal_size().
-    // \endrules
     //
     repeated uint32 time_offset_emission = 6;
 
