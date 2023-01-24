@@ -149,9 +149,9 @@ message SensorView
     //
     repeated UltrasonicSensorView ultrasonic_sensor_view = 1004;
     
-    // Raytracer-specific View(s).
+    // Ray tracer-specific View(s).
     //
-    repeated RaytracerView raytarcer_view = 1005;
+    repeated RayTracerView ray_tracer_view = 1005;
 }
 
 //
@@ -164,6 +164,31 @@ message GenericSensorView
     // Generic view configuration valid at the time the data was created.
     //
     optional GenericSensorViewConfiguration view_configuration = 1;
+}
+
+//
+// \brief Definition of the gain phase message used in RadarSensorView and LidarSensorView.
+//
+// Message containing the spatial signal gain und the correspondig signal phase.
+//
+message GainPhase
+{
+    // Received spatial signal gain.
+    //
+    // This describes the incoming direction and signal gain
+    // from the simulated scene.
+    //
+    // The signal can be received from a different angle than it has been emitted to.
+    //
+    // \note Data is in sensor coordinate system.
+    //
+    optional SpatialSignalGain spatial_signal_gain = 1;
+
+    // The phase of the spatial_signal_gain at the sensor.
+    // 
+    // Unit: rad
+    //
+    optional double phase = 2;
 }
 
 //
@@ -187,20 +212,14 @@ message RadarSensorView
 
     //
     // \brief Definition of the result of a e.g. rendering algorithm, which simulates the
-    // propagation of signal in a virtual scene. 
+    // propagation of signal in a virtual scene.
     //
     message ReceivedSignalElement
     {
-        // Received spatial element.
+        // This message containing the spatial_signal_gain and the correspondig phase.
         //
-        // This describes the incoming direction and signal strength in dB
-        // of the signal return from the simulated scene.
-        // The signal can be received from a different angle than it has been emitted to.
-        //
-        // \note Data is in sensor coordinate system.
-        //
-        optional SpatialSignalGain spatial_signal_gain = 1;
-        
+        repeated GainPhase gain_phase = 1;
+
         // Time of flight.
         //
         // This is the time needed by the signal from emission to reception.
@@ -216,14 +235,6 @@ message RadarSensorView
         // Unit: Hz
         //
         optional double doppler_shift = 3;
-
-        // The phase of the spatial_signal_gain at the sensor.
-        //
-        // The phase_size() has to be equal to the spatial_signal_gain.signal_gain_size().
-        // 
-        // Unit: rad
-        //
-        optional double phase = 4;
     }
 }
 
@@ -252,16 +263,9 @@ message LidarSensorView
     //
     message ReceivedSignalElement
     {
-        // Received spatial signal gain.
+        // This message containing the spatial_signal_gain and the correspondig phase.
         //
-        // This describes the incoming direction and signal gain
-        // from the simulated scene.
-        //
-        // The signal can be received from a different angle than it has been emitted to.
-        //
-        // \note Data is in sensor coordinate system.
-        //
-        optional SpatialSignalGain spatial_signal_gain = 1;
+        repeated GainPhase gain_phase = 1;
 
         // Time of flight.
         //
@@ -279,20 +283,12 @@ message LidarSensorView
         //
         optional double doppler_shift = 3;
 
-        // The phase of the spatial_signal_gain at the sensor.
-        //
-        // The phase_size() has to be equal to the spatial_signal_gain.signal_gain_size().
-        // 
-        // Unit: rad
-        //
-        optional double phase = 4;
-
         // Zero-based index of the emitted lidar beam as configured in
         // LidarSensorViewConfiguration.
         //
         // Unit: -
         //
-        optional uint32 emitted_beam_id = 5;
+        optional uint32 emitted_beam_id = 4;
     }
 
 }
@@ -329,22 +325,22 @@ message UltrasonicSensorView
 }
 
 //
-// \brief Definition of the raytracer view.
+// \brief Definition of the ray tracer view.
 //
-// Raytracer specific view data.
+// Ray tracer specific view data.
 //
-message RaytracerView
+message RayTracerView
 {
-    // Raytracer view configuration valid at the time the data was created.
+    // Ray tracer view configuration valid at the time the data was created.
     //
-    optional RaytracerViewConfiguration view_configuration = 1;
+    optional RayTracerViewConfiguration view_configuration = 1;
 
-    // Raw raytracer data.
+    // Raw ray tracer data.
     //
-    // The raw raytracer data in the memory layout and order specified by the
-    // raytracer input configuration.
+    // The raw ray tracer data in the memory layout and order specified by the
+    // ray tracer input configuration.
     //
-    optional bytes raytarcer_data = 2;
+    optional bytes ray_tracer_data = 2;
     
     // Device type defines the device where the data is located.
     //

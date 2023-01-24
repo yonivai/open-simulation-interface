@@ -650,7 +650,7 @@ message SpatialSignalStrength
     //
     optional double vertical_angle = 2;
 
-    // Emitted / transmitted / received signal gain
+    // Emitted / transmitted / received signal strength
     // of the respective entity
     // at the previously defined horizontal and
     // vertical angle for one specific wavelength.
@@ -659,7 +659,7 @@ message SpatialSignalStrength
     //
     // Unit: dBm
     //
-    repeated double signal_strength = 3;
+    optional double signal_strength = 3;
 }
 
 
@@ -984,5 +984,5 @@ message SpatialSignalGain
     //
     // Unit: dB
     //
-    repeated double signal_gain = 3;
+    optional double signal_gain = 3;
 }

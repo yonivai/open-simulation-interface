@@ -224,10 +224,10 @@ message SensorViewConfiguration
     repeated UltrasonicSensorViewConfiguration
         ultrasonic_sensor_view_configuration = 1004;
         
-    // Raytracer-specific View Configuration(s).
+    // Ray tracer-specific View Configuration(s).
     //
-    repeated RaytracerViewConfiguration
-        raytracer_view_configuration = 1005;
+    repeated RayTracerViewConfiguration
+        ray_tracer_view_configuration = 1005;
 }
 
 //
@@ -396,7 +396,7 @@ message RadarSensorViewConfiguration
     
     // Emitter power.
     //
-    // emitter_power must be considered together with tx_antenna_diagram for absolut power calculation. 
+    // emitter_power must be considered together with tx_antenna_diagram for absolute power calculation. 
     //
     // \note 0 dB as gain corresponds to the emitter power value.
     //
@@ -845,10 +845,10 @@ message UltrasonicSensorViewConfiguration
 
 
 //
-// \brief The configuration settings for the Raytracer View to be
+// \brief The configuration settings for the ray tracer view to be
 // provided by the environment simulation.
 //
-message RaytracerViewConfiguration
+message RayTracerViewConfiguration
 {
     // The ID of the sensor origin at host vehicle's mounting_position.
     //
@@ -887,16 +887,16 @@ message RaytracerViewConfiguration
     // mounting position (based on the vehicle configuration) when setting the
     // view configuration.
     //
-    // All raytracing results e.g. Hitpoint positions are given in this
+    // All ray tracing results e.g. Hitpoint positions are given in this
     // sensor coordinate system.
     //
     optional MountingPosition mounting_position = 2;
     
-    // Position of the raytracer`s receiver in the sensor coordinate system.
+    // Position of the ray tracer`s receiver in the sensor coordinate system.
     // 
     repeated MountingPosition receiver_position = 3;
     
-    // Position of the raytracer`s transmitter in the sensor coordinate system.
+    // Position of the ray tracer`s transmitter in the sensor coordinate system.
     //
     repeated MountingPosition transmitter_position = 4;
     
@@ -905,7 +905,7 @@ message RaytracerViewConfiguration
     // Unit: nm
     optional double emitter_wavelength = 5;
     
-    // When reaching the maximmum signal loss during raytracing further raytracing is aborted.
+    // When reaching the maximmum signal loss during ray tracing further ray tracing is aborted.
     // The maximum signal loss is the relation between current calculated signal strength and the emitted signal
     // strength at the ray generation.
     // 
@@ -924,7 +924,7 @@ message RaytracerViewConfiguration
     // Unit: -
     optional uint32 max_number_of_interactions = 8;
     
-    // Format of raytracer data (includes number, kind and format of channels).
+    // Format of ray tracer data (includes number, kind and format of channels).
     //
     //
     // In the message provided to the sensor model, this field must
@@ -932,25 +932,25 @@ message RaytracerViewConfiguration
     // data being provided by the simulation environment - which must
     // be one of the values the sensor model requested - or there
     // must be no value, indicating that the simulation environment
-    // cannot provide raytracer data in one of the requested formats.
+    // cannot provide ray tracer data in one of the requested formats.
     //
-    optional RaytracerFormat raytracer_format = 9;
+    optional RayTracerFormat ray_tracer_format = 9;
 
-    // Different predefined raytracer formats
+    // Different predefined ray tracer formats
     // 
-    enum RaytracerFormat
+    enum RayTracerFormat
     {
         // Type of channel format is unknown (must not be used).
         //
-        RAYTRACER_FORMAT_UNKNOWN = 0;
+        RAY_TRACER_FORMAT_UNKNOWN = 0;
 
         // Unspecified but known channel format.
         // Consider proposing an additional format if using
-        // \c #RAYTRACER_FORMAT_OTHER.
+        // \c #RAY_TRACER_FORMAT_OTHER.
         //
-        RAYTRACER_FORMAT_OTHER = 1;
+        RAY_TRACER_FORMAT_OTHER = 1;
 
-        // Radar raytracer format used in the Japanese DIVP project.
+        // Radar ray tracer format used in the Japanese DIVP project.
         //
         // The message consists of the following fields in the described order.
         // In brackets the data type, the unit and a short description is given. 
@@ -958,23 +958,23 @@ message RaytracerViewConfiguration
         // relative_speed (float; in m/s; summed relative speed due to interaction points with moved surfaces)
         // propagation_attenuation_h_pol (float; in W; attenuation of signal strength of horizontal polarisation)
         // propagation_attenuation_v_pol (float; in W; attenuation of signal strength of vertical polarisation)
-        // direction_of_arrival_azimuth (float; in rad; direction of arrival of the ray in the configured raytracer coordinate system in azimuth direction)
-        // direction_of_arrival_elevation (float; in rad; direction of arrival of the ray in the configured raytracer coordinate system in elevation direction)
-        // direction_of_departure_azimuth (float; in rad; direction of departure of the ray in the configured raytracer coordinate system in azimuth direction)
-        // direction_of_departure_elevation (float; in rad; direction of departure of the ray in the configured raytracer coordinate system in elevation direction)
+        // direction_of_arrival_azimuth (float; in rad; direction of arrival of the ray in the configured ray tracer coordinate system in azimuth direction)
+        // direction_of_arrival_elevation (float; in rad; direction of arrival of the ray in the configured ray tracer coordinate system in elevation direction)
+        // direction_of_departure_azimuth (float; in rad; direction of departure of the ray in the configured ray tracer coordinate system in azimuth direction)
+        // direction_of_departure_elevation (float; in rad; direction of departure of the ray in the configured ray tracer coordinate system in elevation direction)
         //
-        RAYTRACER_FORMAT_DIVP_RADAR = 2;
+        RAY_TRACER_FORMAT_DIVP_RADAR = 2;
         
-        // Radar raytracer format used in the German VIVALDI project.
+        // Radar ray tracer format used in the German VIVALDI project.
         //
         // The message consists of the following fields in the described order.
         // In brackets the data type, the unit and a short description is given. 
         // intersection_path_length (float; in m; path length of the ray between the First_Hitpoint and the Last_Hitpoint)
         // relative_speed (float; in m/s; summed relative speed due to interaction points with moved surfaces)
         // jones_vector (float4; in V/m; jones vector of the ray with information of the electromagnetic wave`s phase, signal strength and polarisation)
-        // last_hitpoint (float3; in m; coordinates of the last hitpoint in the raytracer's coordinate system defined by the mounting position)
-        // first_hitpoint (float3; in m; coordinates of the first hitpoint in the raytracer's coordinate system defined by the mounting position)
+        // last_hitpoint (float3; in m; coordinates of the last hitpoint in the ray tracer's coordinate system defined by the mounting position)
+        // first_hitpoint (float3; in m; coordinates of the first hitpoint in the ray tracer's coordinate system defined by the mounting position)
         //
-        RAYTRACER_FORMAT_VIVALDI_RADAR = 3;
+        RAY_TRACER_FORMAT_VIVALDI_RADAR = 3;
     }
 }
